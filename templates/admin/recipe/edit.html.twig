@@ -1,0 +1,9 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}Modifier recette{% endblock %}
+
+{% block body %}
+    <h1>{{ recipe.title }}</h1>
+
+    {{ form(form) }}
+{% endblock %}
