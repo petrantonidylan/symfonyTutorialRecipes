@@ -37,7 +37,7 @@ class RecipeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->where('r.duration <= :duration')
             ->orderBy('r.duration', 'ASC')
-            ->setMaxResults(5)
+            ->setMaxResults(100)
             ->setParameter('duration', $duration)
             ->getQuery()
             ->getResult();

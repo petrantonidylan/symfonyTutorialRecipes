@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Recipe;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -30,6 +32,10 @@ class RecipeType extends AbstractType
                 //     new Length(min: 10),
                 //     new Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', message: "Ceci n'est pas un slug valide.")
                 // ]
+            ])
+            ->add('category', EntityType::class,[
+                'class' => Category::class,
+                'choice_label' => 'name'
             ])
             ->add('content', TextareaType::class, [
                 'empty_data' => ''

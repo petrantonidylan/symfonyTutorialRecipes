@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -62,9 +63,16 @@ class CategoryController extends AbstractController{
     #[Route('/{id}', name: 'remove', requirements:['id' => Requirement::DIGITS],methods: ['DELETE'])]
     public function remove(Category $category, EntityManagerInterface $em)
     {
-        $em->remove($category);
-        $em->flush();
-        $this->addFlash('success', 'La catégorie a bien été supprimée.');
-        return $this->redirectToRoute('admin.category.index');
+        try{
+            $em->remove($category);
+            $em->flush();
+            $this->addFlash('success', 'La catégorie a bien été supprimée.');
+            return $this->redirectToRoute('admin.category.index');
+        }catch(Exception $e)
+        {
+            $this->addFlash('danger', 'La catégorie ne peut pas être supprimée car elle est associé à au moins une recette.');
+            return $this->redirectToRoute('admin.category.index');
+        }
+
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Category;
+use App\Entity\Recipe;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -24,6 +26,13 @@ class CategoryType extends AbstractType
                 'required' => false,
                 'empty_data' => ""
             ])
+            // ->add('recipes', EntityType::class,[
+            //     'class' => Recipe::class,
+            //     'choice_label' => 'title',
+            //     'multiple' => true,
+            //     'expanded' => true,
+            //     'by_reference' => false
+            // ])
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'
             ])
