@@ -46,6 +46,10 @@ class RecipeController extends AbstractController
         $form = $this -> createForm(RecipeType::class, $recipe);
         $form -> handleRequest($request);
         if($form -> isSubmitted() && $form->isValid()){
+            $file = $form->get('thumbnailFile')->getData();
+            $filename = $recipe->getId() . '.' . $file->getClientOriginalExtension();
+            $file->move($this->getParameter('kernel.project_dir') . '/public/recipes/images', $filename);
+            $recipe->setThumbnail($filename);
             $recipe->setUpdatedAt(new \DateTimeImmutable());
             $em->flush();
             $this->addFlash('success', 'La recette a bien été modifiée.');

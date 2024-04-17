@@ -6,6 +6,10 @@
     <h1>{{ recipe.title }}</h1>
 
     <p>
+        <img src="/recipes/images/{{ recipe.thumbnail }}" alt="Photo de {{ recipe.title }}" style="height: 100px" title="Photo de {{ recipe.title }}">
+    </p>
+
+    <p>
         {{ recipe.content | nl2br }}
     </p>
 {% endblock %}
