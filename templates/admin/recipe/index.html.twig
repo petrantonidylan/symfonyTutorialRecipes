@@ -24,6 +24,7 @@ Les recettes
             <a href="{{ url('admin.recipe.show', {id: recipe.id, slug: recipe.slug}) }}">{{ recipe.title }}</a>
         </td>
         <td>{{ recipe.category.name | default('') }}</td>
+        {# <td>{{ recipe.name | default('') }}</td> #}
         <td>
             <div class="d-flex gap-1">
                 <a class="btn btn-primary btn-sm" href="{{ url('admin.recipe.edit', {id: recipe.id}) }}">Éditer</a>

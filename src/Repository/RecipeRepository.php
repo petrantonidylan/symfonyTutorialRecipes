@@ -4,7 +4,10 @@ namespace App\Repository;
 
 use App\Entity\Recipe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
+
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @extends ServiceEntityRepository<Recipe>
@@ -41,6 +44,18 @@ class RecipeRepository extends ServiceEntityRepository
             ->setParameter('duration', $duration)
             ->getQuery()
             ->getResult();
+    }
+
+    //t'aurais pu utiliser du sql natif mais, il aurait fallu donner des noms de propriétés différents
+    //ici la prop slug est la même pour recipe et category, donc le slug de category écrase celui de recipe...
+    //ou alors mettre des alias dans la requête mais flemme
+    public function findAll2(EntityManagerInterface $em): array
+    {
+        $sql = "SELECT * FROM recipe LEFT JOIN category ON recipe.category_id = category.id";
+
+        $stmt = $em->getConnection()->prepare($sql);
+        $recipes = $stmt->executeQuery()->fetchAllAssociative();
+        return $recipes;
     }
 
     //    /**

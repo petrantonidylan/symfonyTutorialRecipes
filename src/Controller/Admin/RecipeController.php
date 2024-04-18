@@ -16,14 +16,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Doctrine\ORM\Query\ResultSetMapping;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route("/admin/recette", name: 'admin.recipe.')]
+#[IsGranted('ROLE_ADMIN')]
 class RecipeController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index(RecipeRepository $repository, CategoryRepository $categoryRepository, EntityManagerInterface $em): Response
     {
+        // $this->denyAccessUnlessGranted('ROLE_USER');
         $recipes = $repository->findWithDurationLowerThan(40);
+        // $recipes = $repository->findAll2($em);
         return $this->render('admin/recipe/index.html.twig', [
             'recipes' => $recipes
         ]);
