@@ -12,7 +12,8 @@ Les recettes
 <table class="table">
     <thead>
         <tr>
-            <th>Titre</th>
+            <th>{{ knp_pagination_sortable(recipes, 'ID', 'r.id') }}</th>
+            <th>{{ knp_pagination_sortable(recipes, 'Titre', 'r.title') }}</th>
             <th>Catégorie</th>
             <th style="width: 200px">Actions</th>
         </tr>
@@ -20,6 +21,7 @@ Les recettes
     <tbody>
     {% for recipe in recipes %}
     <tr>
+        <td>{{ recipe.id }}</td>
         <td>
             <a href="{{ url('admin.recipe.show', {id: recipe.id, slug: recipe.slug}) }}">{{ recipe.title }}</a>
         </td>
@@ -38,5 +40,7 @@ Les recettes
     {% endfor %}
     </tbody>
 </table>
+
+{{ knp_pagination_render(recipes) }}
 
 {% endblock %}

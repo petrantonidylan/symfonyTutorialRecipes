@@ -24,13 +24,19 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class RecipeController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(RecipeRepository $repository, CategoryRepository $categoryRepository, EntityManagerInterface $em): Response
+    public function index(RecipeRepository $repository, CategoryRepository $categoryRepository, EntityManagerInterface $em, Request $request): Response
     {
+        $page = $request->query->getInt('page',1);
         // $this->denyAccessUnlessGranted('ROLE_USER');
-        $recipes = $repository->findWithDurationLowerThan(40);
+        // $recipes = $repository->findWithDurationLowerThan(40);
+        $limit = 2;
+        $recipes = $repository->paginateRecipe($page, $limit);
+        $maxPage = ceil($recipes->getTotalItemCount() / $limit);
         // $recipes = $repository->findAll2($em);
         return $this->render('admin/recipe/index.html.twig', [
-            'recipes' => $recipes
+            'recipes' => $recipes,
+            'maxPage' => $maxPage,
+            'page' => $page
         ]);
     }
 
